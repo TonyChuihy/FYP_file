@@ -3,7 +3,11 @@
 # GEN
 
 #### setcover
-python run.py --datapath DATA_TO_YOUR_INSTANCES --upper 1. --ipm_alpha 0.15 --weight_decay 1.2e-6 --batchsize 512 --hidden 180 --num_pred_layers 4 --num_mlp_layers 4 --share_lin_weight false --conv_sequence cov --loss_weight_x 1.2 --loss_weight_obj 0.8 --loss_weight_cons 0.16 --runs 3 --conv genconv
+python run.py --datapath /home/hychuiaa/FYP_file/IPM_MPNN/d/fac6 --upper 1. --ipm_alpha 0.15 --weight_decay 1.2e-6 --batchsize 512 --hidden 180 --num_pred_layers 4 --num_mlp_layers 4 --share_lin_weight false --conv_sequence cov --loss_weight_x 1.2 --loss_weight_obj 0.8 --loss_weight_cons 0.16 --runs 3 --conv genconv
+
+
+### new setcover command
+CUDA_LAUNCH_BLOCKING=1 python run.py --datapath /home/hychuiaa/FYP_file/IPM_MPNN/d/fac6 --upper 1. --ipm_alpha 0.15 --weight_decay 1.2e-6 --batchsize 64 --hidden 180 --num_pred_layers 4 --num_mlp_layers 4 --share_lin_weight false --conv_sequence cov --loss_weight_x 1.2 --loss_weight_obj 0.8 --loss_weight_cons 0.16 --runs 3 --conv genconv
 
 #### indset
 python run.py --datapath DATA_TO_YOUR_INSTANCES --ipm_alpha 0.15 --weight_decay 1.2e-6 --upper 1. --batchsize 512 --hidden 180 --num_pred_layers 4 --num_mlp_layers 4 --share_lin_weight false --conv_sequence cov --loss_weight_x 1.2 --loss_weight_obj 0.8 --loss_weight_cons 0.16 --runs 3 --conv genconv

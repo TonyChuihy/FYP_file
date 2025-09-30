@@ -69,21 +69,16 @@ class LPDataset(InMemoryDataset):
                     tilde_mask = col < (A.shape[1] - A.shape[0])
 
                 c = c / (c.abs().max() + 1.e-10)  # does not change the result
-                DetachA = A
-                DetachA = DetachA.detach().cpu().numpy()
-                Detachb = b
-                Detachb = Detachb.detach().cpu().numpy()
-                Detachc = c
-                Detachc = Detachc.detach().cpu().numpy()
+
                 # solve the LP
                 if self.using_ineq:
-                    A_ub = DetachA
-                    b_ub = Detachb
+                    A_ub = A.numpy()
+                    b_ub = b.numpy()
                     A_eq = None
                     b_eq = None
                 else:
-                    A_eq = DetachA
-                    b_eq = Detachb
+                    A_eq = A.numpy()
+                    b_eq = b.numpy()
                     A_ub = None
                     b_ub = None
 
@@ -93,7 +88,7 @@ class LPDataset(InMemoryDataset):
                     # sol = ipm_overleaf(c.numpy(), A_ub, b_ub, A_eq, b_eq, None, max_iter=1000, lin_solver='scipy_cg')
                     # x = np.stack(sol['xs'], axis=1)  # primal
 
-                    sol = linprog(Detachc,
+                    sol = linprog(c.numpy(),
                                   A_ub=A_ub,
                                   b_ub=b_ub,
                                   A_eq=A_eq, b_eq=b_eq, bounds=bounds,
@@ -149,10 +144,8 @@ class LPDataset(InMemoryDataset):
 
                     if self.pre_transform is not None:
                         data = self.pre_transform(data)
-                    data = data.to('cpu')
-                    # 最後： torch.save(Batch.from_data_list(data_list), path)  # 會是 CUDA tensors
-                    data_list.append(data)
 
+                    data_list.append(data)
 
             torch.save(Batch.from_data_list(data_list), osp.join(self.processed_dir, f'batch{i}.pt'))
             data_list = []
