@@ -45,11 +45,17 @@ def collate_fn_with_counts(graphs: List[Data]):
 
 
 def collate_fn_ip(graphs: List[Data]):
-    new_batch = Batch.from_data_list(graphs)
+    # 强制在 CPU 上处理所有图
+    cpu_graphs = [graph.cpu() for graph in graphs]
+    new_batch = Batch.from_data_list(cpu_graphs)
+    
+    # 所有操作都在 CPU 上进行
     row_bias = torch.hstack([new_batch.A_num_row.new_zeros(1), new_batch.A_num_row[:-1]]).cumsum(dim=0)
     row_bias = torch.repeat_interleave(row_bias, new_batch.A_nnz)
     new_batch.A_row += row_bias
+    
     col_bias = torch.hstack([new_batch.A_num_col.new_zeros(1), new_batch.A_num_col[:-1]]).cumsum(dim=0)
     col_bias = torch.repeat_interleave(col_bias, new_batch.A_nnz)
     new_batch.A_col += col_bias
+    
     return new_batch

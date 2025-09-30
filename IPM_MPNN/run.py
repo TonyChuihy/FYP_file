@@ -85,7 +85,7 @@ if __name__ == '__main__':
                name=args.wandbname if args.wandbname else None,
                mode="online" if args.use_wandb else "disabled",
                config=vars(args),
-               entity="chendiqian")  # use your own entity
+               entity="tony1301654083")  # use your own entity
 
     dataset = LPDataset(args.datapath,
                         extra_path=f'{args.ipm_restarts}restarts_'
@@ -100,17 +100,17 @@ if __name__ == '__main__':
     train_loader = DataLoader(dataset[:int(len(dataset) * 0.8)],
                               batch_size=args.batchsize,
                               shuffle=True,
-                              num_workers=1,
+                              num_workers=0,
                               collate_fn=collate_fn_ip)
     val_loader = DataLoader(dataset[int(len(dataset) * 0.8):int(len(dataset) * 0.9)],
                             batch_size=args.batchsize,
                             shuffle=False,
-                            num_workers=1,
+                            num_workers=0,
                             collate_fn=collate_fn_ip)
     test_loader = DataLoader(dataset[int(len(dataset) * 0.9):],
                             batch_size=args.batchsize,
                             shuffle=False,
-                            num_workers=1,
+                            num_workers=0,
                             collate_fn=collate_fn_ip)
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
