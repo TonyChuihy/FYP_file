@@ -23,9 +23,9 @@ def args_parser():
     parser = argparse.ArgumentParser(description='hyper params for training graph dataset')
     # admin
     parser.add_argument('--datapath', type=str, required=True)
-    parser.add_argument('--wandbproject', type=str, default='default')
+    parser.add_argument('--wandbproject', type=str, default='ipm_mpnm')
     parser.add_argument('--wandbname', type=str, default='')
-    parser.add_argument('--use_wandb', type=str, default='false')
+    parser.add_argument('--use_wandb', type=str, default='true')
 
     # ipm processing
     parser.add_argument('--ipm_restarts', type=int, default=1)  # more does not help
@@ -82,10 +82,10 @@ if __name__ == '__main__':
             yaml.dump(args.to_dict(), outfile, default_flow_style=False)
 
     wandb.init(project=args.wandbproject,
-               name=args.wandbname if args.wandbname else None,
-               mode="online" if args.use_wandb else "disabled",
+            #    name=args.wandbname if args.wandbname else None,
+            #    mode="online" if args.use_wandb else "disabled",
                config=vars(args),
-               entity="chendiqian")  # use your own entity
+               )  # use your own entity
 
     dataset = LPDataset(args.datapath,
                         extra_path=f'{args.ipm_restarts}restarts_'
@@ -245,3 +245,4 @@ if __name__ == '__main__':
         'test_consgap_std': np.std(test_consgap_mean),
         'test_hybrid_gap': np.mean(test_objgap_mean) + np.mean(test_consgap_mean),  # for the sweep
     })
+    print('Done!')
