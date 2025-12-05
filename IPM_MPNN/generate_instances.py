@@ -4,6 +4,14 @@ import numpy as np
 import scipy
 import scipy.sparse
 
+#Tony 
+def generate_random_lp(nvars, nconstraints, density, rng):
+    A = np.random.random((nconstraints, nvars))
+    b = np.random.random(nconstraints) * nvars
+    c = np.random.random(nvars)
+    mask = np.random.random((nconstraints, nvars)) < density
+    A = A * mask
+    return A, b, c
 
 def generate_setcover(nrows_l, nrows_u, ncols_l, ncols_u, density, rng):
     """

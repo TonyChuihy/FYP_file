@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# new screen
+screen -d -m -S GPU_0 bash -c 'export CUDA_VISIBLE_DEVICES=0; conda activate ipmgnn ;exec bash' 
+screen -d -m -S GPU_1 bash -c 'export CUDA_VISIBLE_DEVICES=1; conda activate ipmgnn ;exec bash'
+screen -d -m -S GPU_2 bash -c 'export CUDA_VISIBLE_DEVICES=2; conda activate ipmgnn ;exec bash'
+screen -d -m -S GPU_3 bash -c 'export CUDA_VISIBLE_DEVICES=3; conda activate ipmgnn ;exec bash'
+
+
+
+
 # GEN
 
 #### setcover
@@ -45,6 +54,7 @@ python run.py --datapath /home/hychuiaa/FYP_file/IPM_MPNN/d/fac6 --ipm_alpha 0.7
 
 #### indset
 python run.py --datapath /home/hychuiaa/FYP_file/IPM_MPNN/d/fac6 --ipm_alpha 0.73 --weight_decay 5.6e-6 --micro_batch 4 --batchsize 4 --hidden 180 --num_pred_layers 3 --num_mlp_layers 2 --share_lin_weight false --conv_sequence cov --loss_weight_x 1. --loss_weight_obj 2.4 --loss_weight_cons 7.5 --runs 3 --conv ginconv
+python testing.py --ckpt logs/IndsetGCN/run1/best_model.pt --ipm_alpha 0.73 --micro_batch 4 --batchsize 4 --hidden 180 --num_pred_layers 3 --num_mlp_layers 2 --share_lin_weight false --conv_sequence cov --loss_weight_x 1. --loss_weight_obj 2.4 --loss_weight_cons 7.5 --conv ginconv
 
 #### cauction
 python run.py --datapath /home/hychuiaa/FYP_file/IPM_MPNN/d/fac6 --ipm_alpha 0.63 --weight_decay 0. --micro_batch 4 --batchsize 4 --hidden 180 --num_pred_layers 4 --num_mlp_layers 4 --share_lin_weight false --loss_weight_x 1. --loss_weight_obj 4.3 --loss_weight_cons 6.26 --runs 3 --conv ginconv

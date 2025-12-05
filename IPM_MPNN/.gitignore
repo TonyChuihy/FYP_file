@@ -5,3 +5,5 @@ wandb/
 *.pt
 logs/
 *.log
+*exp*
+*d/
